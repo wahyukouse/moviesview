@@ -3,12 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { GenreService } from '../services/genre.service';
 
 @Component({
-  selector: 'app-genres',
-  templateUrl: './genres.component.html',
-  styleUrls: ['./genres.component.css']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css']
 })
-export class GenresComponent implements OnInit {
-
+export class HeaderComponent implements OnInit {
   genres: any;
 
   constructor(private genreService: GenreService) { }
@@ -16,4 +15,5 @@ export class GenresComponent implements OnInit {
   ngOnInit() {
     this.genreService.getGenres().subscribe((data) => this.genres = data);
   }
+
 }

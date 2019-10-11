@@ -1,0 +1,16 @@
+<div *ngIf="movie"> -->
+<h1>{{getparam}}</h1>
+ <img width="650" src="http://image.tmdb.org/t/p/w400/{{movie.backdrop_path}}">
+  <h2>{{ movie.original_title }}</h2>
+  <div><span>id: </span>{{ movie.id }}</div>
+  <div *ngFor="let review of reviews">
+    <label>{{review.content}}</label>
+  </div>
+  <ul>
+    <li *ngFor="let similar of movies">
+      {{similar.title}}
+    </li>
+  </ul>
+
+</div>
+

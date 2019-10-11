@@ -1,4 +1,50 @@
-.card-content{
-  height: 100px;
+.card-image img:hover {
+  cursor: pointer;
+}
+.horizontal {
+  height: 337px;
 }
 
+.card-content {
+  max-height: 18.6em;
+  line-height: 1.8em;
+}
+
+.card-content p {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.star-ratings .star {
+  font-size: 20px;
+}
+.vote {
+  margin-left: 3px;
+  font-size: 15px;
+}
+.year-realease {
+  color: #1b5e20;
+  margin-left: 3px;
+  font-size: 13px;
+}
+.star-ratings .fill-ratings span {
+  display: inline-block;
+}
+
+.pages span {
+  margin: 10px;
+}
+
+
+.page-div ul{
+  margin-left: 350px;
+  padding: 10px;
+}
+
+.card-action  {
+  color: #1b5e20;
+}
