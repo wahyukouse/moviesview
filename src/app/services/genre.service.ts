@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Genre } from '../models/Genre';
-import { Movie } from '../models/Discover';
 
-export interface ServiceData {
-  genres: Genre[];
-  movies: Movie[];
-}
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +14,12 @@ export class GenreService {
     const url = `https://api.themoviedb.org/3${query}&api_key=${
       this.apikey}`;
     return url;
+  }
+
+  getCast(id: number) {
+    return this.http.get(this.getUrlJson(`/movie/${id}/credits?`)).pipe(
+      map((data: any) => data.cast)
+    );
   }
 
   getTotalPages() {
@@ -41,8 +40,8 @@ export class GenreService {
     );
   }
 
-  getSimilarMovie(id: number) {
-    return this.http.get(this.getUrlJson(`/movie/${id}/similar?`)).pipe(
+  getRecommendations(id: number) {
+    return this.http.get(this.getUrlJson(`/movie/${id}/recommendations?`)).pipe(
       map((data: any) => data.results)
     );
   }
@@ -58,8 +57,23 @@ export class GenreService {
       map((data: any) => data.genres));
   }
 
-  getUpcoming() {
-    return this.http.get(this.getUrlJson(`/movie/upcoming?`)).pipe(
+  getUpcoming(page: number) {
+    return this.http.get(this.getUrlJson(`/movie/upcoming?`) + `&page=${page}`).pipe(
+      map((data: any) => data.results));
+  }
+
+  getNowPlaying(page: number) {
+    return this.http.get(this.getUrlJson(`/movie/now_playing?`) + `&page=${page}`).pipe(
+      map((data: any) => data.results));
+  }
+
+  getTopRate(page: number) {
+    return this.http.get(this.getUrlJson(`/movie/top_rated?`) + `&page=${page}`).pipe(
+      map((data: any) => data.results));
+  }
+
+  getVideos(id: number) {
+    return this.http.get(this.getUrlJson(`/movie/${id}/videos?`)).pipe(
       map((data: any) => data.results));
   }
 }

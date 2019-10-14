@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GenreService } from '../services/genre.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,14 +9,17 @@ import { GenreService } from '../services/genre.service';
 })
 export class DashboardComponent implements OnInit {
   movies: any[];
+  toprates: any[];
 
-  slide = ['1', '2', '3'];
-
-  constructor(private genreService: GenreService) { }
+  constructor(private genreService: GenreService, private router: Router) { }
 
   ngOnInit() {
-    this.genreService.getDiscoverMovies(1, 'popularity.desc').subscribe(data => this.movies = data);
-    console.log(this.slide.length);
+    this.genreService.getNowPlaying(1).subscribe(data => this.movies = data);
+    this.genreService.getTopRate(1).subscribe(data => this.toprates = data);
+  }
+
+  onClick(id: number) {
+    this.router.navigate(['/movie/' + id]);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { GenreService } from '../services/genre.service';
 
@@ -8,6 +8,7 @@ import { GenreService } from '../services/genre.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  @Input() hi: any;
   genres: any;
 
   constructor(private genreService: GenreService) { }

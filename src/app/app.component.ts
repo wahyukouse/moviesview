@@ -6,6 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  @Input() items: any[] = [];
-  title = 'moviesview';
+  titlehead = 'moviesview';
 }

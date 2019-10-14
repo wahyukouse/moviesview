@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { GenreService } from '../services/genre.service';
 
@@ -16,18 +17,34 @@ export class MoviesComponent implements OnInit {
   contents = [];
   getparam = +this.route.snapshot.paramMap.get('page');
   allpage: number;
+  title: string;
+  id = +this.route.snapshot.paramMap.get('id');
+  type = this.route.snapshot.paramMap.get('type');
 
 
-  constructor(private genreService: GenreService, private route: ActivatedRoute, private fb: FormBuilder) {
+  constructor(private router: Router, private genreService: GenreService, private route: ActivatedRoute, private fb: FormBuilder) {
   }
 
-  oppoSuitsForm = this.fb.group({
-    name: ['']
-  });
 
   ngOnInit() {
     this.getData();
-    this.genreService.getDiscoverMovies(this.getparam, 'popularity.desc').subscribe(data => this.movies = data);
+    // tslint:disable-next-line: triple-equals
+    if (this.type == 'discover') {
+      this.title = 'Discover';
+      this.getDiscoverMovie();
+    // tslint:disable-next-line: triple-equals
+    } else if (this.type == 'toprate') {
+      this.title = 'Top Rates';
+      this.getTopRate();
+    // tslint:disable-next-line: triple-equals
+    } else if (this.type == 'upcoming') {
+      this.title = 'Upcoming';
+      this.getUpcoming();
+    // tslint:disable-next-line: triple-equals
+    } else if (this.type == 'nowplaying') {
+      this.title = 'Now Playing';
+      this.getNowPlaying();
+    }
   }
 
   getData() {
@@ -39,12 +56,24 @@ export class MoviesComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    alert(JSON.stringify(this.oppoSuitsForm.value));
+  onClick(id: number) {
+    this.router.navigate(['/movie/' + id]);
   }
 
-  onOptionsSelected(value: string) {
-    console.log('the selected value is ' + value);
+  getDiscoverMovie() {
+    this.genreService.getDiscoverMovies(this.getparam, 'popularity.desc').subscribe(data => this.movies = data);
+  }
+
+  getTopRate() {
+    this.genreService.getTopRate(this.getparam).subscribe(data => this.movies = data);
+  }
+
+  getUpcoming() {
+    this.genreService.getUpcoming(this.getparam).subscribe(data => this.movies = data);
+  }
+
+  getNowPlaying() {
+    this.genreService.getNowPlaying(this.getparam).subscribe(data => this.movies = data);
   }
 
 }

@@ -11,6 +11,7 @@ import { MoviesCekComponent } from './movies-cek/movies-cek.component';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { HeaderComponent } from './header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { TopmoviesComponent } from './topmovies/topmovies.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MoviesCekComponent,
     MovieDetailComponent,
     HeaderComponent,
-    DashboardComponent
+    DashboardComponent,
+    TopmoviesComponent
   ],
   imports: [
     BrowserModule,

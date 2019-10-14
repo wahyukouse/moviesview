@@ -1,22 +1,54 @@
-.header-genres {
-  position: relative;
-  display: inline-block;
+.first-container {
+  background-size: cover;
+  background: url(https://i.ibb.co/R3jYhzn/joseph-pearson-rva30-A3-HUWI-unsplash.jpg);
+  height: 500px;
 }
-
-.header-genres-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  color: #000;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+.nav-controls .btn {
+  background-color: transparent;
+  color: white;
   padding: 10px;
-  z-index: 1;
+  font-size: 1.2em;
 }
 
-.header-genres:hover {
-  cursor: pointer;
+.nav-controls .btn:hover {
+  color: #ffbf00;
+  border-color: #ffbf00;
 }
-.header-genres:hover .header-genres-content {
-  display: block;
+
+.solid-nav {
+  background-color: #120b0b;
+  transition: background-color 0.2s linear;
+}
+
+.nav-row {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding-right: 25px;
+  padding-left: 25px;
+  padding-top: 18px;
+}
+.nav-logo {
+  display: inline-block;
+  font-weight: 900;
+}
+
+.nav-controls {
+  float: right;
+}
+.nav-controls a {
+  color: #fff;
+}
+.nav-controls a:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.content {
+  padding-top: 50px;
+  padding-bottom: 150px;
+  padding-left: 25px;
+  padding-right: 25px;
+  margin-bottom: 25px;
+  flex: 1 0 auto;
 }

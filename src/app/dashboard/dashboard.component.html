@@ -1,15 +1,62 @@
-<div class="parallax-container">
-  <div class="parallax"><img src="https://data.whicdn.com/images/333590125/original.jpg?t=1564760551" /></div>
-</div>
-<div class="section white">
-  <div class="row container">
-    <h2 class="header">Parallax</h2>
-    <p class="grey-text text-darken-3 lighten-3">
-      Parallax is an effect where the background content or image in this case,
-      is moved at a different speed than the foreground content while scrolling.
-    </p>
+<div class="container content">
+  <h2>Now Playing</h2>
+  <span *ngFor="let movie of movies; let i = index">
+    <div class="card card-movies" *ngIf="i < 5" (click)="onClick(movie.id)">
+      <div class="poster">
+        <img src="{{
+          movie.poster_path != null
+            ? 'http://image.tmdb.org/t/p/w400/' + movie.poster_path
+            : 'https://www.intanonline.com/not-found.png'
+        }}" />
+      </div>
+      <div class="details">
+        <div class="rating">
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <span>{{ movie.vote_average }}/10</span>
+        </div>
+        <h2>
+          {{ movie.title }}
+          <span>({{ movie.release_date | date: "yyyy" }})</span>
+        </h2>
+        <br /><br />
+        <div class="info">
+          <p>{{ movie.overview }}</p>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div class="see-all">
+    <button class="btn btn-large" id="all-top"><a href = "/movies/discover/page/1">See All Movies</a></button>
   </div>
-</div>
-<div class="parallax-container">
-  <div class="parallax"><img src="images/parallax2.jpg" /></div>
+
+  <h2>Top Rates</h2>
+  <span *ngFor="let movie of toprates; let i = index">
+    <div class="card card-movies" *ngIf="i < 5" (click)="onClick(movie.id)">
+      <div class="poster">
+        <img src="{{
+          movie.poster_path != null
+            ? 'http://image.tmdb.org/t/p/w400/' + movie.poster_path
+            : 'https://www.intanonline.com/not-found.png'
+        }}" />
+      </div>
+      <div class="details">
+        <div class="rating">
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <span>{{ movie.vote_average }}/10</span>
+        </div>
+        <h2>
+          {{ movie.title }}
+          <span>({{ movie.release_date | date: "yyyy" }})</span>
+        </h2>
+        <br /><br />
+
+        <div class="info">
+          <p>{{ movie.overview }}</p>
+        </div>
+      </div>
+    </div>
+  </span>
+  <div class="see-all">
+    <button class="btn btn-large" id="all-bottom"><a href = "/movies/toprate/page/1">See All Movies</a></button>
+  </div>
 </div>
