@@ -11,49 +11,59 @@ import { Location } from '@angular/common';
   styleUrls: ['./movie-detail.component.css']
 })
 export class MovieDetailComponent implements OnInit {
-  @Input() movie: any;
-  movies: any;
+
+  movie: any = {};
+  movies: any = {};
   reviews: any;
-  hi = '500px';
   getparam: number;
   allpage: number;
   videos: any;
   cast: any;
   id = +this.route.snapshot.paramMap.get('id');
+  loading = true;
 
 
-  contents = [];
+  constructor(private router: Router, private genreService: GenreService, private route: ActivatedRoute, private location: Location) {
 
-  constructor(private router: Router, private genreService: GenreService, private route: ActivatedRoute, private location: Location) { }
+  }
 
   ngOnInit() {
-    this.getMovie();
-    this.getSimilars();
-    this.getReviews();
-    this.getVideos();
-    this.getCast();
+    this.loading = true;
+    this.route.params.subscribe(params => {
+      this.genreService.getMovieDetail(params.id).subscribe(data => {
+        this.movie = data;
+        this.genreService.getCast(params.id).subscribe(cast => {
+          this.cast = cast;
+          this.genreService.getVideos(params.id).subscribe(videos => {
+            this.videos = videos;
+            this.getSimilars(params.id);
+            this.getReviews(params.id);
+            this.loading = false;
+          });
+        });
+      });
+    });
   }
 
   onClick(id: number) {
+    this.loading = true;
     this.router.navigate(['/movie/' + id]);
+    this.id = id;
+    this.ngOnInit();
   }
 
-  getMovie(): void {
-    this.genreService.getMovieDetail(this.id).subscribe(data => this.movie = data);
+  getMovie(id: number): void {
+    this.genreService.getMovieDetail(id).subscribe(data => {
+      this.movie = data;
+    });
   }
 
-  getSimilars(): void {
-    this.genreService.getRecommendations(this.id).subscribe(data => this.movies = data);
+  getSimilars(id: number): void {
+    this.genreService.getRecommendations(id).subscribe(data => this.movies = data);
   }
 
-  getReviews(): void {
-    this.genreService.getReviews(this.id).subscribe(data => this.reviews = data);
+  getReviews(id: number): void {
+    this.genreService.getReviews(id).subscribe(data => this.reviews = data);
   }
 
-  getVideos(): void {
-    this.genreService.getVideos(this.id).subscribe(data => this.videos = data);
-  }
-  getCast(): void {
-    this.genreService.getCast(this.id).subscribe(data => this.cast = data);
-  }
 }
