@@ -1,24 +1,32 @@
-<div
-  class="first-container"
-  id="nav-content"
-  style="background: url(https://i.ibb.co/R3jYhzn/joseph-pearson-rva30-A3-HUWI-unsplash.jpg);height: 250px;"
->
-  <div class="nav-container">
-    <div class="nav-row">
-      <div class="nav-logo">
-        <a href="/">
-          <img
-            src="https://www.themoviedb.org/assets/2/v4/logos/312x276-primary-green-74212f6247252a023be0f02a5a45794925c3689117da9d20ffe47742a665c518.png"
-            width="75px"
-          />
-        </a>
-      </div>
-      <div class="nav-controls">
-        <button class="btn btn-large"><a href="/movies/discover/page/1">Discover</a></button>
-        <button class="btn btn-large"><a href="/movies/toprate/page/1">Top Rate</a></button>
-        <button class="btn btn-large"><a href="/movies/upcoming/page/1">Upcoming</a></button>
-        <button class="btn btn-large"><a href="/movies/nowplaying/page/1">Now Playing</a></button>
+<nav>
+  <div
+    class="first-container"
+    id="nav-content">
+    <div class="nav-container">
+      <div class="nav-row">
+        <div class="nav-logo">
+          <a routerLink="home">
+            <img
+              src="https://www.themoviedb.org/assets/2/v4/logos/312x276-primary-green-74212f6247252a023be0f02a5a45794925c3689117da9d20ffe47742a665c518.png"
+              width="75px"
+            />
+          </a>
+        </div>
+        <div class="nav-controls">
+          <button class="btn btn-large">
+            <a (click)="onClick('discover')">Discover</a>
+          </button>
+          <button class="btn btn-large">
+            <a (click)="onClick('toprate')">Top Rate</a>
+          </button>
+          <button class="btn btn-large">
+            <a (click)="onClick('upcoming')">Upcoming</a>
+          </button>
+          <button class="btn btn-large">
+            <a (click)="onClick('nowplaying')">Now Playing</a>
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</nav>

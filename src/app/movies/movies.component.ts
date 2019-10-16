@@ -12,14 +12,15 @@ import { GenreService } from '../services/genre.service';
 })
 export class MoviesComponent implements OnInit {
   oppoSuits: any = ['Men', 'Women', 'Boys', 'Inspiration'];
-
+  film: any;
   movies: any;
   contents = [];
-  getparam = +this.route.snapshot.paramMap.get('page');
+  getparam: number;
   allpage: number;
   title: string;
   id = +this.route.snapshot.paramMap.get('id');
   type = this.route.snapshot.paramMap.get('type');
+  loading: boolean;
 
 
   constructor(private router: Router, private genreService: GenreService, private route: ActivatedRoute, private fb: FormBuilder) {
@@ -27,24 +28,32 @@ export class MoviesComponent implements OnInit {
 
 
   ngOnInit() {
+    this.getparam = +this.route.snapshot.paramMap.get('page');
     this.getData();
-    // tslint:disable-next-line: triple-equals
-    if (this.type == 'discover') {
-      this.title = 'Discover';
-      this.getDiscoverMovie();
-    // tslint:disable-next-line: triple-equals
-    } else if (this.type == 'toprate') {
-      this.title = 'Top Rates';
-      this.getTopRate();
-    // tslint:disable-next-line: triple-equals
-    } else if (this.type == 'upcoming') {
-      this.title = 'Upcoming';
-      this.getUpcoming();
-    // tslint:disable-next-line: triple-equals
-    } else if (this.type == 'nowplaying') {
-      this.title = 'Now Playing';
-      this.getNowPlaying();
-    }
+    console.log(this.pagination(this.allpage, this.getparam));
+    this.route.params.subscribe(param => {
+      // tslint:disable-next-line: triple-equals
+      if (param.type == 'discover') {
+        this.loading = true;
+        this.title = 'Discover';
+        this.getDiscoverMovie();
+        // tslint:disable-next-line: triple-equals
+      } else if (param.type == 'toprate') {
+        this.loading = true;
+        this.title = 'Top Rates';
+        this.getTopRate();
+        // tslint:disable-next-line: triple-equals
+      } else if (param.type == 'upcoming') {
+        this.loading = true;
+        this.title = 'Upcoming';
+        this.getUpcoming();
+        // tslint:disable-next-line: triple-equals
+      } else if (param.type == 'nowplaying') {
+        this.loading = true;
+        this.title = 'Now Playing';
+        this.getNowPlaying();
+      }
+    });
   }
 
   getData() {
@@ -56,24 +65,84 @@ export class MoviesComponent implements OnInit {
     });
   }
 
+  clickPage(page: number, type: string, condition: boolean) {
+    if (condition) {
+      this.router.navigate([`/movies/${type}/page/${page - 1}`]);
+      this.ngOnInit();
+    } else {
+      this.router.navigate([`/movies/${type}/page/${page + 1}`]);
+      this.ngOnInit();
+    }
+  }
+
   onClick(id: number) {
     this.router.navigate(['/movie/' + id]);
   }
 
   getDiscoverMovie() {
-    this.genreService.getDiscoverMovies(this.getparam, 'popularity.desc').subscribe(data => this.movies = data);
+    this.genreService.getDiscoverMovies(this.getparam, 'popularity.desc').subscribe((data: any) => {
+      this.movies = data;
+      this.loading = false;
+    });
   }
 
   getTopRate() {
-    this.genreService.getTopRate(this.getparam).subscribe(data => this.movies = data);
+    this.genreService.getTopRate(this.getparam).subscribe(data => {
+      this.movies = data;
+      this.loading = false;
+    });
   }
 
   getUpcoming() {
-    this.genreService.getUpcoming(this.getparam).subscribe(data => this.movies = data);
+    this.genreService.getUpcoming(this.getparam).subscribe(data => {
+      this.movies = data;
+      this.loading = false;
+    });
   }
 
   getNowPlaying() {
-    this.genreService.getNowPlaying(this.getparam).subscribe(data => this.movies = data);
+    this.genreService.getNowPlaying(this.getparam).subscribe(data => { this.movies = data; this.loading = false; });
   }
 
+  pagination(
+    totalItems: number,
+    currentPage: number,
+    pageSize: number = 20,
+    maxPages: number = 10
+  ) {
+    const totalPages = Math.ceil(totalItems / pageSize);
+    console.log(totalPages);
+
+    if (currentPage < 1) {
+      currentPage = 1;
+    } else if (currentPage > totalPages) {
+      currentPage = totalPages;
+    }
+
+    let startPage: number;
+    let endPage: number;
+
+    if (totalPages <= maxPages) {
+      startPage = 1;
+      endPage = totalPages;
+    } else {
+      const maxPagesBeforeCurrentPage = Math.floor(maxPages / 2);
+      const maxPagesAfterCurrentPage = Math.ceil(maxPages / 2) - 1;
+      if (currentPage <= maxPagesBeforeCurrentPage) {
+        startPage = 1;
+        endPage = maxPages;
+      } else if (currentPage + maxPagesAfterCurrentPage >= totalPages) {
+        startPage = totalPages - maxPages + 1;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - maxPagesBeforeCurrentPage;
+        endPage = currentPage + maxPagesAfterCurrentPage;
+      }
+    }
+
+    const pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
+    return {
+      page: pages
+    };
+  }
 }
