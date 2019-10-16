@@ -1,62 +1,83 @@
-<div class="container content">
-  <h2>Now Playing</h2>
-  <span *ngFor="let movie of movies; let i = index">
-    <div class="card card-movies" *ngIf="i < 5" (click)="onClick(movie.id)">
-      <div class="poster">
-        <img src="{{
-          movie.poster_path != null
-            ? 'http://image.tmdb.org/t/p/w400/' + movie.poster_path
-            : 'https://www.intanonline.com/not-found.png'
-        }}" />
+<app-pages *ngIf="loading"></app-pages>
+<div *ngIf="!loading">
+  <div class="container content main-container animated fadeIn fast">
+    <h2>Now Playing</h2>
+    <div class="row">
+      <div
+        class="col-md-2 card-content"
+        *ngFor="let movie of movies.results; let i = index"
+      >
+        <div class="card card-movies" *ngIf="i < 5" (click)="onClick(movie.id)">
+          <div class="poster">
+            <img
+              src="{{
+                movie.poster_path != null
+                  ? 'http://image.tmdb.org/t/p/w400/' + movie.poster_path
+                  : 'https://www.intanonline.com/not-found.png'
+              }}"
+            />
+          </div>
+          <div class="details">
+            <div class="rating">
+              <i class="fa fa-star" aria-hidden="true"></i>
+              <span>{{ movie.vote_average }}/10</span>
+            </div>
+            <h2>
+              {{ movie.title }}
+              <span>({{ movie.release_date | date: "yyyy" }})</span>
+            </h2>
+            <br /><br />
+            <div class="info">
+              <p>{{ movie.overview }}</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="details">
-        <div class="rating">
-          <i class="fa fa-star" aria-hidden="true"></i>
-          <span>{{ movie.vote_average }}/10</span>
-        </div>
-        <h2>
-          {{ movie.title }}
-          <span>({{ movie.release_date | date: "yyyy" }})</span>
-        </h2>
-        <br /><br />
-        <div class="info">
-          <p>{{ movie.overview }}</p>
-        </div>
-      </div>
-    </div>
-  </span>
-  <div class="see-all">
-    <button class="btn btn-large" id="all-top"><a href = "/movies/discover/page/1">See All Movies</a></button>
-  </div>
-
-  <h2>Top Rates</h2>
-  <span *ngFor="let movie of toprates; let i = index">
-    <div class="card card-movies" *ngIf="i < 5" (click)="onClick(movie.id)">
-      <div class="poster">
-        <img src="{{
-          movie.poster_path != null
-            ? 'http://image.tmdb.org/t/p/w400/' + movie.poster_path
-            : 'https://www.intanonline.com/not-found.png'
-        }}" />
-      </div>
-      <div class="details">
-        <div class="rating">
-          <i class="fa fa-star" aria-hidden="true"></i>
-          <span>{{ movie.vote_average }}/10</span>
-        </div>
-        <h2>
-          {{ movie.title }}
-          <span>({{ movie.release_date | date: "yyyy" }})</span>
-        </h2>
-        <br /><br />
-
-        <div class="info">
-          <p>{{ movie.overview }}</p>
-        </div>
+      <div class=" col-md-12 see-all">
+        <button class="btn btn-large" id="all-top">
+          <a href="/movies/discover/page/1">See All Movies</a>
+        </button>
       </div>
     </div>
-  </span>
-  <div class="see-all">
-    <button class="btn btn-large" id="all-bottom"><a href = "/movies/toprate/page/1">See All Movies</a></button>
+
+    <h2>Top Rates</h2>
+    <div class="row">
+      <div
+        class="col-md-2 card-content"
+        *ngFor="let movie of toprates.results; let i = index"
+      >
+        <div class="card card-movies" *ngIf="i < 5" (click)="onClick(movie.id)">
+          <div class="poster">
+            <img
+              src="{{
+                movie.poster_path != null
+                  ? 'http://image.tmdb.org/t/p/w400/' + movie.poster_path
+                  : 'https://www.intanonline.com/not-found.png'
+              }}"
+            />
+          </div>
+          <div class="details">
+            <div class="rating">
+              <i class="fa fa-star" aria-hidden="true"></i>
+              <span>{{ movie.vote_average }}/10</span>
+            </div>
+            <h2>
+              {{ movie.title }}
+              <span>({{ movie.release_date | date: "yyyy" }})</span>
+            </h2>
+            <br /><br />
+
+            <div class="info">
+              <p>{{ movie.overview }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 see-all">
+        <button class="btn btn-large" id="all-bottom">
+          <a href="/movies/toprate/page/1">See All Movies</a>
+        </button>
+      </div>
+    </div>
   </div>
 </div>

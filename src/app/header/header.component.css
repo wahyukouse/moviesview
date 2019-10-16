@@ -1,7 +1,10 @@
 .first-container {
   background-size: cover;
   background: url(https://i.ibb.co/R3jYhzn/joseph-pearson-rva30-A3-HUWI-unsplash.jpg);
-  height: 500px;
+  position: fixed;
+  height: 85px;
+  width: 100%;
+  z-index: 2;
 }
 .nav-controls .btn {
   background-color: transparent;

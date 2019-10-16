@@ -1,59 +1,65 @@
-<div class="container content">
-  <h2>{{title | titlecase }}</h2>
-  <span *ngFor="let movie of movies">
-    <div class="card card-movies" (click)="onClick(movie.id)">
-      <div class="poster">
-        <img
-          src="{{
-            movie.poster_path != null
-              ? 'http://image.tmdb.org/t/p/w400/' + movie.poster_path
-              : 'https://www.intanonline.com/not-found.png'
-          }}"
-        />
-      </div>
-      <div class="details">
-        <div class="rating">
-          <i class="fa fa-star" aria-hidden="true"></i>
-          <span>{{ movie.vote_average }}/10</span>
+<app-pages *ngIf="loading"></app-pages>
+<div *ngIf="!loading">
+  <div class="container content content main-container animated fadeIn fast">
+    <h2>{{ title | titlecase }}</h2>
+    <span *ngFor="let movie of movies.results">
+      <div class="card card-movies" (click)="onClick(movie.id)">
+        <div class="poster">
+          <img
+            src="{{
+              movie.poster_path != null
+                ? 'http://image.tmdb.org/t/p/w400/' + movie.poster_path
+                : 'https://www.intanonline.com/not-found.png'
+            }}"
+          />
         </div>
-        <h2>
-          {{ movie.title }}
-          <span>({{ movie.release_date | date: "yyyy" }})</span>
-        </h2>
-        <br /><br />
-        <div class="info">
-          <p>{{ movie.overview }}</p>
+        <div class="details">
+          <div class="rating">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <span>{{ movie.vote_average }}/10</span>
+          </div>
+          <h2>
+            {{ movie.title }}
+            <span>({{ movie.release_date | date: "yyyy" }})</span>
+          </h2>
+          <br /><br />
+          <div class="info">
+            <p>{{ movie.overview }}</p>
+          </div>
         </div>
       </div>
-    </div>
-  </span>
+    </span>
 
-  <div class="container page-div">
-    <div class="card">
-      <ul class="pagination">
-        <li class="{{ getparam == 1 ? 'disabled' : 'waves-effect' }}">
-          <a
-            *ngIf="getparam > 1"
-            href="/movies/{{ type }}/page/{{ getparam - 1 }}"
-            ><i class="fa fa-angle-left"></i
-          ></a>
-          <a *ngIf="getparam == 1"><i class="fa fa-angle-left"></i></a>
-        </li>
-        <li class="pages">
-          <span
-            >{{ getparam > 1 ? "Pages " : "Page " }}
-            {{ getparam + " of " + allpage }}</span
-          >
-        </li>
-        <li class="{{ getparam == allpage ? 'disabled' : 'waves-effect' }}">
-          <a
-            *ngIf="getparam < allpage"
-            href="/movies/{{ type }}/page/{{ getparam + 1 }}"
-            ><i class="fa fa-angle-right"></i
-          ></a>
-          <a *ngIf="getparam == allpage"><i class="fa fa-angle-right"></i></a>
-        </li>
-      </ul>
+    <div class="container page-div">
+      <p>{{getparam}}</p>
+      <div class="card">
+        <ul class="pagination">
+          <li class="{{ getparam == 1 ? 'disabled' : 'waves-effect' }}">
+            <a
+              *ngIf="getparam > 1"
+              routerLink ="/movies/{{ type }}/page/{{ getparam - 1 }}"
+              (click)="clickPage(getparam, type, true)"
+              ><i class="fa fa-angle-left"></i
+            ></a>
+            <a *ngIf="getparam == 1"><i class="fa fa-angle-left"></i></a>
+          </li>
+          <li class="pages">
+            <span
+              >{{ getparam > 1 ? "Pages " : "Page " }}
+              {{ getparam + " of " + allpage }}</span
+            >
+          </li>
+          <li class="{{ getparam == allpage ? 'disabled' : 'waves-effect' }}">
+            <a
+              *ngIf="getparam < allpage"
+              routerLink ="/movies/{{ type }}/page/{{ getparam + 1 }}"
+              (click)="clickPage(getparam, type, false)"
+              ><i class="fa fa-angle-right"></i
+            ></a>
+            <a *ngIf="getparam == allpage"><i class="fa fa-angle-right"></i></a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
