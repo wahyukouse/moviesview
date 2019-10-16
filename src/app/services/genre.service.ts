@@ -1,79 +1,56 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-
+import { Observable, pipe } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GenreService {
+export class MainserviceService {
+
   private apikey = 'b78a2c1e6b214a5b6bcf015adb9d40c3';
+  readonly apiUrl = `https://api.themoviedb.org/3`;
+  readonly headerKey = {
+    headers: {
+      api_key: this.apikey
+    }
+  };
+
   constructor(private http: HttpClient) { }
 
-  getUrlJson(query: string) {
-    const url = `https://api.themoviedb.org/3${query}&api_key=${
-      this.apikey}`;
-    return url;
+  getCast(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${id}/credits?`, this.headerKey);
   }
 
-  getCast(id: number) {
-    return this.http.get(this.getUrlJson(`/movie/${id}/credits?`)).pipe(
-      map((data: any) => data.cast)
-    );
+
+  getDiscoverMovies(page: number, sortBy: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/discover/movie?&sort_by=${sortBy}&page=${page}`);
   }
 
-  getTotalPages() {
-    return this.http.get(this.getUrlJson('/discover/movie?')).pipe(
-      map((data: any) => data.total_pages)
-    );
+  getMovieDetail(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${id}?`);
   }
 
-  getDiscoverMovies(page: number, sortBy: string) {
-    return this.http.get(this.getUrlJson(`/discover/movie?`) + `&sort_by=${sortBy}&page=${page}`).pipe(
-      map((data: any) => data.results)
-    );
+  getRecommendations(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${id}/recommendations?`);
   }
 
-  getMovieDetail(id: number) {
-    return this.http.get(this.getUrlJson(`/movie/${id}?`)).pipe(
-      map((data: any) => data)
-    );
+  getReviews(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${id}/reviews?`);
   }
 
-  getRecommendations(id: number) {
-    return this.http.get(this.getUrlJson(`/movie/${id}/recommendations?`)).pipe(
-      map((data: any) => data.results)
-    );
+  getUpcoming(page: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/upcoming?` + `&page=${page}`);
   }
 
-  getReviews(id: number) {
-    return this.http.get(this.getUrlJson(`/movie/${id}/reviews?`)).pipe(
-      map((data: any) => data.results)
-    );
+  getNowPlaying(page: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/now_playing?&page=${page}`);
   }
 
-  getGenres() {
-    return this.http.get(this.getUrlJson(`/genre/movie/list?`)).pipe(
-      map((data: any) => data.genres));
+  getTopRate(page: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/top_rated?&page=${page}`);
   }
 
-  getUpcoming(page: number) {
-    return this.http.get(this.getUrlJson(`/movie/upcoming?`) + `&page=${page}`).pipe(
-      map((data: any) => data.results));
-  }
-
-  getNowPlaying(page: number) {
-    return this.http.get(this.getUrlJson(`/movie/now_playing?`) + `&page=${page}`).pipe(
-      map((data: any) => data.results));
-  }
-
-  getTopRate(page: number) {
-    return this.http.get(this.getUrlJson(`/movie/top_rated?`) + `&page=${page}`).pipe(
-      map((data: any) => data.results));
-  }
-
-  getVideos(id: number) {
-    return this.http.get(this.getUrlJson(`/movie/${id}/videos?`)).pipe(
-      map((data: any) => data.results));
+  getVideos(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/${id}/videos?`);
   }
 }
