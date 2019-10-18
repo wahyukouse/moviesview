@@ -18,44 +18,40 @@ export class MainserviceService {
 
   constructor(private http: HttpClient) { }
 
-  getUrlJson(query: string) {
-    return `https://api.themoviedb.org/3${query}&api_key=${this.apikey}`;
-  }
-
   getCast(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/movie/${id}/credits?`, this.headerKey);
   }
 
 
   getDiscoverMovies(page: number, sortBy: string): Observable<any> {
-    return this.http.get(this.getUrlJson(`/discover/movie?`) + `&sort_by=${sortBy}&page=${page}`);
+    return this.http.get(`${this.apiUrl}/discover/movie?&sort_by=${sortBy}&page=${page}`);
   }
 
   getMovieDetail(id: number): Observable<any> {
-    return this.http.get(this.getUrlJson(`/movie/${id}?`));
+    return this.http.get(`${this.apiUrl}/movie/${id}?`);
   }
 
   getRecommendations(id: number): Observable<any> {
-    return this.http.get(this.getUrlJson(`/movie/${id}/recommendations?`));
+    return this.http.get(`${this.apiUrl}/movie/${id}/recommendations?`);
   }
 
   getReviews(id: number): Observable<any> {
-    return this.http.get(this.getUrlJson(`/movie/${id}/reviews?`));
+    return this.http.get(`${this.apiUrl}/movie/${id}/reviews?`);
   }
 
   getUpcoming(page: number): Observable<any> {
-    return this.http.get(this.getUrlJson(`/movie/upcoming?`) + `&page=${page}`);
+    return this.http.get(`${this.apiUrl}/movie/upcoming?` + `&page=${page}`);
   }
 
   getNowPlaying(page: number): Observable<any> {
-    return this.http.get(this.getUrlJson(`/movie/now_playing?`) + `&page=${page}`);
+    return this.http.get(`${this.apiUrl}/movie/now_playing?&page=${page}`);
   }
 
   getTopRate(page: number): Observable<any> {
-    return this.http.get(this.getUrlJson(`/movie/top_rated?`) + `&page=${page}`);
+    return this.http.get(`${this.apiUrl}/movie/top_rated?&page=${page}`);
   }
 
   getVideos(id: number): Observable<any> {
-    return this.http.get(this.getUrlJson(`/movie/${id}/videos?`));
+    return this.http.get(`${this.apiUrl}/movie/${id}/videos?`);
   }
 }
